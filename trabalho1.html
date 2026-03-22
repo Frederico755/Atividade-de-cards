@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabalho 1 - Editor de Cartões</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Cabeçalho do site -->
+  <header>
+    <h1>Disciplina de Design de Interface</h1>
+    <p>Trabalhos do semestre</p>
+  </header>
+  
+  <!-- Navegação -->
+  <nav id="navegacao">
+    <a class="button" href="index.html">Apresentação</a>
+    <a class="button" href="trabalho1.html">Trabalho 1</a>
+    <a class="button" href="#">Trabalho 2</a>
+    <a class="button" href="#">Trabalho 3</a>
+  </nav>
+    
+  <main>
+     <h2>Trabalho 1 &mdash; Editor de Cartões</h2>
+    <p>Use o formulário abaixo para criar e personalizar o seu cartão comemorativo.</p>
+ 
+    <div class="editor-container">
+ 
+      <!-- FORMULÁRIO DE EDIÇÃO -->
+      <div class="formulario">
+ 
+        <!-- Fundo do cartão -->
+        <h3>Fundo do Cartão</h3>
+ 
+        <label for="tema">Tema:</label>
+        <select id="tema" onchange="aplicarTema()">
+          <option value="aniversario">🎂 Aniversário</option>
+          <option value="natal">🎄 Natal</option>
+          <option value="pascoa">🐰 Páscoa</option>
+          <option value="personalizado">✏️ Personalizado</option>
+        </select>
+ 
+        <label for="cor-fundo">Cor de fundo:</label>
+        <input type="color" id="cor-fundo" value="#fff9c4" oninput="mudarCorFundo()" />
+ 
+        <label for="tamanho-borda">Arredondamento da borda (px):</label>
+        <input type="range" id="tamanho-borda" min="0" max="80" value="10"
+               oninput="document.getElementById('val-borda').textContent = this.value + 'px'; mudarBorda()" />
+        <span id="val-borda">10px</span>
+ 
+        <!-- Adicionar texto -->
+        <h3>Adicionar Texto</h3>
+ 
+        <label for="texto-novo">Texto:</label>
+        <textarea id="texto-novo" maxlength="150" placeholder="Digite o texto do cartão..."></textarea>
+ 
+        <label for="cor-texto">Cor do texto:</label>
+        <input type="color" id="cor-texto" value="#333333" />
+ 
+        <label for="tamanho-texto">Tamanho da fonte (px):</label>
+        <input type="range" id="tamanho-texto" min="12" max="60" value="20"
+               oninput="document.getElementById('val-fonte').textContent = this.value + 'px'" />
+        <span id="val-fonte">20px</span>
+ 
+        <label for="fonte">Tipo de fonte:</label>
+        <select id="fonte">
+          <option value="Arial">Arial</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Courier New">Courier New</option>
+          <option value="Impact">Impact</option>
+          <option value="cursive">Cursiva</option>
+        </select>
+ 
+        <button onclick="adicionarTexto()">Adicionar Texto ao Cartão</button>
+ 
+        <!-- Adicionar imagem -->
+        <h3>Adicionar Imagem</h3>
+ 
+        <label for="imagem">Escolher imagem do computador:</label>
+        <input type="file" id="imagem" accept="image/*" onchange="adicionarImagem()" />
+ 
+ 
+ 
+      </div>
+      <!-- fim formulario -->
+ 
+      <!-- ÁREA DO CARTÃO -->
+      <div class="area-cartao">
+        <h3>Pré-visualização do Cartão</h3>
+ 
+        <div id="cartao">
+          <div id="texto-padrao" style="text-align:center; padding-top: 110px; color:#999; font-size:15px; pointer-events:none;">
+            ✏️ Seu cartão aparece aqui.<br>Adicione textos, imagens ou formas ao lado.
+          </div>
+        </div>
+ 
+        <div id="lista-elementos">
+          <p><strong>Elementos no cartão:</strong></p>
+          <p id="msg-vazio">Nenhum elemento adicionado ainda.</p>
+        </div>
+      </div>
+ 
+    </div>
+  </main>
+ 
+  <!-- Rodapé do site -->
+  <footer class="rodape">
+    <p>Design de Interface &mdash; 2025</p>
+  </footer>
+ 
+  <script src="editor.js"></script>
+</body>
+</html>
