@@ -57,13 +57,12 @@ function adicionarTexto() {
   div.style.cursor     = 'move';
   div.style.whiteSpace = 'nowrap';
 
-  // Posição inicial: centro do cartão
   var cartao = document.getElementById('cartao');
   var posX = Math.round(cartao.offsetWidth / 2 - 60);
   var posY = Math.round(cartao.offsetHeight / 2 - 20);
 
   esconderTextoPadrao();
-  adicionarElementoNoCartao(div, posX, posY, 'Texto: "' + conteudo.substring(0, 20) + '"');
+  adicionarElementoNoCartao(div, posX, posY);
 
   document.getElementById('texto-novo').value = '';
 }
@@ -79,21 +78,20 @@ function adicionarImagem() {
   var leitor = new FileReader();
   leitor.onload = function(evento) {
     var img = document.createElement('img');
-    img.src         = evento.target.result;
-    img.alt         = 'Imagem do cartão';
-    img.style.width  = '200px';
-    img.style.height = '200px';
+    img.src             = evento.target.result;
+    img.alt             = 'Imagem do cartão';
+    img.style.width     = '200px';
+    img.style.height    = '200px';
     img.style.objectFit = 'cover';
-    img.style.cursor = 'move';
-    img.style.display = 'block';
+    img.style.cursor    = 'move';
+    img.style.display   = 'block';
 
-    // Posição inicial: centralizada na parte de baixo do cartão
     var cartao = document.getElementById('cartao');
-    var posX = Math.round(cartao.offsetWidth / 2 - 50);  // 50 = metade de 100px
-    var posY = cartao.offsetHeight - 110;                  // 10px acima da borda
+    var posX = Math.round(cartao.offsetWidth / 2 - 50);
+    var posY = cartao.offsetHeight - 110;
 
     esconderTextoPadrao();
-    adicionarElementoNoCartao(img, posX, posY, 'Imagem: ' + arquivo.name.substring(0, 20));
+    adicionarElementoNoCartao(img, posX, posY);
 
     input.value = '';
   };
@@ -101,24 +99,21 @@ function adicionarImagem() {
   leitor.readAsDataURL(arquivo);
 }
 
-// FUNÇÃO CENTRAL: coloca o elemento no cartão e na lista
+// FUNÇÃO CENTRAL: coloca o elemento no cartão
 
-function adicionarElementoNoCartao(elemento, posX, posY, descricao) {
+function adicionarElementoNoCartao(elemento, posX, posY) {
   contadorElementos++;
-  var idEl = 'el-' + contadorElementos;
-  elemento.id = idEl;
+  elemento.id = 'el-' + contadorElementos;
 
   elemento.style.position = 'absolute';
   elemento.style.left = posX + 'px';
   elemento.style.top  = posY + 'px';
 
   document.getElementById('cartao').appendChild(elemento);
-
   tornarArrastavel(elemento);
-  adicionarNaLista(descricao, idEl);
 }
 
-// FUNÇÃO DE ARRASTAR
+// ARRASTAR
 
 function tornarArrastavel(elemento) {
   var arrastando = false;
@@ -127,7 +122,6 @@ function tornarArrastavel(elemento) {
 
   elemento.addEventListener('mousedown', function(e) {
     arrastando = true;
-    // Guarda onde o mouse clicou dentro do elemento
     offsetX = e.clientX - elemento.getBoundingClientRect().left;
     offsetY = e.clientY - elemento.getBoundingClientRect().top;
     e.preventDefault();
@@ -139,11 +133,9 @@ function tornarArrastavel(elemento) {
     var cartao    = document.getElementById('cartao');
     var retCartao = cartao.getBoundingClientRect();
 
-    // Nova posição = posição do mouse - posição do cartão - onde clicou no elemento
     var novoX = e.clientX - retCartao.left - offsetX;
     var novoY = e.clientY - retCartao.top  - offsetY;
 
-    // Limita para não sair do cartão
     novoX = Math.max(0, Math.min(novoX, cartao.offsetWidth  - elemento.offsetWidth));
     novoY = Math.max(0, Math.min(novoY, cartao.offsetHeight - elemento.offsetHeight));
 
@@ -156,46 +148,7 @@ function tornarArrastavel(elemento) {
   });
 }
 
-// LISTA DE ELEMENTOS
-
-function adicionarNaLista(descricao, idEl) {
-  document.getElementById('msg-vazio').style.display = 'none';
-
-  var item = document.createElement('div');
-  item.className = 'item-lista';
-  item.id = 'item-' + idEl;
-
-  var texto = document.createElement('span');
-  texto.textContent = descricao;
-
-  var btn = document.createElement('button');
-  btn.textContent = 'Remover';
-  btn.className   = 'btn-remover';
-  btn.onclick = function() {
-    removerElemento(idEl);
-  };
-
-  item.appendChild(texto);
-  item.appendChild(btn);
-  document.getElementById('lista-elementos').appendChild(item);
-}
-
-function removerElemento(idEl) {
-  var el = document.getElementById(idEl);
-  if (el) el.remove();
-
-  var item = document.getElementById('item-' + idEl);
-  if (item) item.remove();
-
-  var itens = document.querySelectorAll('.item-lista');
-  if (itens.length === 0) {
-    document.getElementById('msg-vazio').style.display = 'block';
-  }
-}
-
-// -------------------------------------------------------
 // ESCONDE O TEXTO INICIAL DO CARTÃO VAZIO
-// -------------------------------------------------------
 
 function esconderTextoPadrao() {
   var padrao = document.getElementById('texto-padrao');
